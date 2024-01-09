@@ -1,0 +1,20 @@
+@startuml
+title statechart with composite states
+state "root" as root {
+  [*] --> s1
+  s1 --> [*] : close
+  state "s1" as s1 {
+    [*] --> s1a
+    state "s1b" as s1b {
+      [*] --> s1b1
+      s1b --> s1a : click
+      s1b1 --> [*] : validate
+      state "s1b1" as s1b1 {
+      }
+    }
+    state "s1a" as s1a {
+      s1a --> s1b : click
+    }
+  }
+}
+@enduml

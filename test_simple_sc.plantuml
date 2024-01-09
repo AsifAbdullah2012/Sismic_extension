@@ -1,0 +1,17 @@
+@startuml
+title simple statechart
+state "root" as root {
+  [*] --> s1
+  s3 --> [*] : goto final
+  state "s3" as s3 {
+    s3 --> s1 : goto s1
+    s3 --> s2 : goto s2
+  }
+  state "s2" as s2 {
+    s2 --> s3
+  }
+  state "s1" as s1 {
+    s1 --> s2 : goto s2
+  }
+}
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+title statechart with executable content
+state "root" as root {
+  [*] --> s1
+  s2 --> [*]
+  state "s2" as s2 {
+    s2 : **entry** / y += 1
+  }
+  state "s1" as s1 {
+    s1 --> s2 : / x += 1
+  }
+}
+@enduml

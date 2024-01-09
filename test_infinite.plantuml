@@ -1,0 +1,14 @@
+@startuml
+title infinite statechart
+state "root" as root {
+  [*] --> s1
+  s1 --> [*] : [x >= 100]
+  state "s2" as s2 {
+    s2 --> s1
+  }
+  state "s1" as s1 {
+    s1 : **entry** / x += 1
+    s1 --> s2 : [x < 100]
+  }
+}
+@enduml

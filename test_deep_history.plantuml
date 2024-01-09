@@ -1,0 +1,39 @@
+@startuml
+title Deep history
+state "root" as root {
+  [*] --> active
+  pause --> [*] : stop
+  state "pause" as pause {
+    pause --> activeH : continue
+  }
+  state "active" as active {
+    [*] --> concurrentprocesses
+    active --> pause : pause
+    state "concurrent_processes" as concurrentprocesses {
+      state "process_2" as process2 {
+        [*] --> s21
+        s22 --> [*] : next2
+        state "s22" as s22 {
+          s22 --> pause : error2
+        }
+        state "s21" as s21 {
+          s21 --> s22 : next2
+        }
+      }
+      --
+      state "process_1" as process1 {
+        [*] --> s11
+        s12 --> [*] : next1
+        state "s12" as s12 {
+          s12 --> pause : error1
+        }
+        state "s11" as s11 {
+          s11 --> s12 : next1
+        }
+      }
+    }
+    state "H*" as activeH {
+    }
+  }
+}
+@enduml

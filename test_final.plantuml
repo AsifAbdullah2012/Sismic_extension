@@ -1,0 +1,32 @@
+@startuml
+title final
+state "root" as root {
+  [*] --> a
+  state "parallel" as parallel {
+    state "p2" as p2 {
+      [*] --> p2a
+      p2a --> [*] : p2-final
+      state "p2a" as p2a {
+      }
+    }
+    --
+    state "p1" as p1 {
+      [*] --> p1a
+      p1a --> [*] : p1-final
+      state "p1a" as p1a {
+      }
+    }
+  }
+  state "c" as c {
+    [*] --> nestedfinal
+  }
+  a --> [*] : root-final
+  state "b" as b {
+  }
+  state "a" as a {
+    a --> b : b
+    a --> c : c
+    a --> parallel : parallel
+  }
+}
+@enduml

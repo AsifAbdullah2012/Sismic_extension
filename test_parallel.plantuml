@@ -1,0 +1,44 @@
+@startuml
+title Statechart to test parallel transitions
+state "root" as root {
+  [*] --> s1
+  state "s1" as s1 {
+    s1 --> s1 : nextA
+    state "p2" as p2 {
+      [*] --> initial2
+      state "c2" as c2 {
+      }
+      state "b2" as b2 {
+        b2 --> s1 : conflict1
+        b2 --> c1 : conflict2
+        b2 --> c2 : reset1
+      }
+      state "a2" as a2 {
+        a2 --> b2 : nextB
+      }
+      state "initial2" as initial2 {
+        initial2 --> a2 : nextA
+      }
+    }
+    --
+    state "p1" as p1 {
+      [*] --> initial1
+      p1 --> p1 : nextA
+      state "c1" as c1 {
+      }
+      state "b1" as b1 {
+        b1 --> c1 : conflict1
+        b1 --> c1 : conflict2
+        b1 --> p1 : reset1
+      }
+      state "a1" as a1 {
+        a1 --> b1 : nextB
+        a1 --> p1 : reset1
+      }
+      state "initial1" as initial1 {
+        initial1 --> a1 : nextA
+      }
+    }
+  }
+}
+@enduml

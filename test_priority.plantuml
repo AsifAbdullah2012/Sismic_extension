@@ -1,0 +1,20 @@
+@startuml
+title test priorities
+state "root" as root {
+  [*] --> a
+  state "d" as d {
+  }
+  state "c" as c {
+  }
+  state "b" as b {
+    b --> c : 1:e
+    b --> d : -1:e
+    b --> a : -2:
+  }
+  state "a" as a {
+    a --> b : 1:
+    a --> c : -1:
+    a --> d : -1:
+  }
+}
+@enduml
