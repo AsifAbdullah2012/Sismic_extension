@@ -1,0 +1,14 @@
+parallel_test.py
+parallel_test2.py
+parallel_test3.py
+parallel_test4.py
+
+statechart.plantuml
+test_actions.plantuml
+test_composite.plantuml
+test_deep_history.plantuml
+test_final.plantuml
+test_nested_parallel.plantuml
+test_parallel.plantuml
+test_priority.plantuml
+test_simple_sc.plantuml

@@ -1,0 +1,25 @@
+@startuml
+
+skin rose
+
+Title Events and Change requests
+State Step1
+State "Step2" as Step2
+State Step0
+State Step3
+
+
+note left of Step1 : Event Queue
+note left of Step1
+    Change Request Queue
+    A Queue of python dictionary
+    Each dictionary contains a change
+end note
+
+Step1 -right-> Step2
+Step0 -right-> Step1
+Step2 -right-> Step3
+
+
+
+@enduml

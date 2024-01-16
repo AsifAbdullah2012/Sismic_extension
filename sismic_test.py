@@ -427,11 +427,18 @@ async def run_statechart(queue):
         run_again = input("Run next step ? if no type Exit: \n")
         if run_again == "Exit":
             break
-        await asyncio.sleep(10)
+        await asyncio.sleep(4)
         while True:
-            item = await queue.get()
+            if queue.empty():
+                await fetch_change(queue)
+                item = await queue.get()
+                
+            else:
+                item = await queue.get()
+            
+
             if item is None:
-                queue.task_done()
+                # queue.task_done()
                 break  # End when the sentinel value is seen
 
             st_change = extend.StateChange(elevator, interpreter)
@@ -476,8 +483,10 @@ async def run_statechart(queue):
                     tc_change.remove(t2)
 
             print(f"Consumed {item} \n")
-            queue.task_done()
+            # queue.task_done()
 
+        print("running the step...\n")
+        active_state_after_execution = interpreter.configuration
         step = interpreter.execute_once()
 
 
@@ -520,8 +529,10 @@ async def run_statechart(queue):
 
 async def main():
     queue = asyncio.Queue()
-    task1 = asyncio.create_task(fetch_change(queue)) # producer 
-    task2 = asyncio.create_task(run_statechart(queue)) # consumer 
+    
+    task1 = asyncio.create_task(run_statechart(queue)) # consumer 
+    task2 = asyncio.create_task(fetch_change(queue)) # producer 
+    
     await asyncio.gather(task1, task2)
 
     

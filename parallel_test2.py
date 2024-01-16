@@ -1,23 +1,51 @@
 import asyncio
 
-async def execute_program():
-    while True:
-        # Replace with your program's logic
-        await asyncio.sleep(1)  # Simulating async work with sleep
-        print("Program is running")
+async def producer(queue):
+    for i in range(1):
+        in_p = input("number\n")
+        await queue.put(in_p)
+        print(f"Produced {in_p}")
 
-async def listen_for_input():
+    await asyncio.sleep(1)
+
+    for i in range(1):
+        in_p = input("number\n")
+        await queue.put(in_p)
+        print(f"Produced {in_p}")
+
+
+
+async def consumer(queue):
+    
     while True:
-        user_input = await asyncio.to_thread(input, "Enter your command: ")
-        if user_input == 'exit':
-            break
-        print(f"Received input: {user_input}")
+        while True:
+            await asyncio.sleep(1)
+            if queue.empty():
+                await producer(queue)
+                break
+            else:
+                item = await queue.get()
+            print(f"Consumed {item}")
+            queue.task_done()
+
+        print("break\n")
+
+        
+
 
 async def main():
-    task1 = asyncio.create_task(execute_program())
-    task2 = asyncio.create_task(listen_for_input())
-    task3 = asyncio.create_task(listen_for_input())
+    queue = asyncio.Queue()
+    produce_event = asyncio.Event()
 
-    await asyncio.gather(task1, task2, task3)
+    # Initially set the event to start production
+    produce_event.set()
+    producer_task = asyncio.create_task(producer(queue))
+    consumer_task = asyncio.create_task(consumer(queue))
+    await asyncio.gather(consumer_task, producer_task)
+    
+    # await asyncio.sleep(1)  # Give some time for the producer to add items
+    # await queue.join()      # Wait until all items are processed
+
+    # consumer_task.cancel()  # Cancel the consumer
 
 asyncio.run(main())

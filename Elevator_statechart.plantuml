@@ -19,11 +19,7 @@ state "active" as active {
       state "movingUp" as movingUp {
         movingUp : **entry** / current = current + 1
         movingUp --> movingUp : [destination > current]
-        movingUp --> Emergency : 1:[current>6]
       }
-      state "Emergency" as Emergency {
-      }
-      Emergency --> [*] : 1:leave
     }
     state "doorsClosed" as doorsClosed {
       doorsClosed --> movingUp : [destination > current]
