@@ -1,17 +1,63 @@
 @startuml
-title simple statechart
-state "root" as root {
-  [*] --> s1
-  s3 --> [*] : goto final
-  state "s3" as s3 {
-    s3 --> s1 : goto s1
-    s3 --> s2 : goto s2
+[*] --> Stopped
+
+state Stopped {
+  [*] --> CheckCommand
+  state MapSurroundings{
+  [*] --> InitialSystemCheck     
+
   }
-  state "s2" as s2 {
-    s2 --> s3
-  }
-  state "s1" as s1 {
-    s1 --> s2 : goto s2
-  }
+  CheckCommand --> MapSurroundings : NoCommand
+  MapSurroundings --> SendSensorData : /sendDataToDatabase()
+  SendSensorData --> [*]
+  
+  CheckCommand --> IsForward : Yes
+  IsForward : do /checkForward()
+  IsForward --> MoveForward : Distance Clear
+  IsForward --> CheckCommand : No
+
+  CheckCommand --> IsBackward : Yes
+  IsBackward : do /checkBackward()
+  IsBackward --> MoveBackward : Distance Clear
+  IsBackward --> CheckCommand : No
+
+  CheckCommand --> IsTurnRight : Yes
+  IsTurnRight : do /checkRight()
+  IsTurnRight --> TurnRight : Clear to Right
+  IsTurnRight --> CheckCommand : No
+
+  CheckCommand --> IsTurnLeft : Yes
+  IsTurnLeft : do /checkLeft()
+  IsTurnLeft --> TurnLeft : Clear to Left
+  IsTurnLeft --> CheckCommand : No
+
+  CheckCommand --> IsStop : Yes
+  IsStop --> Stopped : /stop()
 }
+
+state MoveForward {
+  [*] --> Moving
+  Moving --> Stopped : /stop()
+  Moving --> [*]
+}
+
+state MoveBackward {
+  [*] --> Moving
+  Moving --> Stopped : /stop()
+  Moving --> [*]
+}
+
+state TurnRight {
+  [*] --> Turning
+  Turning --> Stopped : /stop()
+  Turning --> [*]
+}
+
+state TurnLeft {
+  [*] --> Turning
+  Turning --> Stopped : /stop()
+  Turning --> [*]
+}
+
+Stopped --> [*] : /shutdown()
 @enduml

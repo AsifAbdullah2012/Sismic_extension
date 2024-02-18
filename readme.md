@@ -4,7 +4,7 @@
 
 Sismic is mainly developed by Dr. Alexandre Decan as part of his research activities at the Software Engineering Lab of the University of Mons. Sismic is released as open source under the GNU Lesser General Public Licence version 3.0 (LGPLv3).
 
-▶   A python library
+▶ A python library
 ▶ Support Harel state chart semantics
 ▶ Interpreter follows SCXML 1.0 semantics
 ▶ Follows step execution

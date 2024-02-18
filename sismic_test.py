@@ -327,7 +327,7 @@ async def fetch_change(queue):
             await queue.put(None)
             break
         else:
-            print("insert 1 for state addition \n insert 2 for state removal \n insert 3 for transition addition \n insert 4 for transition removal \n")
+            print("insert 1 for state addition \n insert 2 for state removal \n insert 3 for transition addition \n insert 4 for transition removal \n insert 5 for Add events\n")
             in_type = input("change type: \n")
             if in_type == "1":
                 print("input state type 'B' -- Basic, 'C' -- Compound, 'F' -- Final\n")
@@ -401,6 +401,25 @@ async def fetch_change(queue):
 
                 await queue.put(tran_dic)
 
+            # Add events 
+            if in_type == '5':
+                num_of_events = input("How many events you want to insert?\n")
+                lis_of_events = list()
+                for i in range(int(num_of_events)):
+                    event_name = input("insert name of the event\n")
+                    lis_of_events.append(event_name)
+
+                tran_dic = {
+                    "change_type": in_type,
+                    "event_list": lis_of_events,
+                } 
+
+                await queue.put(tran_dic)
+
+                
+
+
+
         print("produced ....\n")
 
 
@@ -409,7 +428,9 @@ async def fetch_change(queue):
 async def run_statechart(queue):
     
 
-    elevator = import_from_yaml(filepath='sismic/docs/examples/elevator/elevator.yaml')
+    #elevator = import_from_yaml(filepath='sismic/docs/examples/elevator/elevator.yaml')
+    # ---------------------------------------------------->
+    elevator = import_from_yaml(filepath='sismic/tests/yaml/simple.yaml')
     print(elevator._parent)
 
 
@@ -419,9 +440,9 @@ async def run_statechart(queue):
     active_state_before_execution = interpreter.configuration
 
     step = interpreter.execute_once()
-
-    interpreter.queue('floorSelected', floor=16)
-
+    # ---------------------------------------------------->
+    # interpreter.queue('floorSelected', floor=16)
+    # interpreter.queue('click', 'validate') # ----> replacement 
     
     while True:
         run_again = input("Run next step ? if no type Exit: \n")
@@ -482,12 +503,25 @@ async def run_statechart(queue):
                 if c_type == "4":
                     tc_change.remove(t2)
 
+            if c_type == "5":
+                event_list = item["event_list"]
+
+                for event in event_list:
+                    interpreter.queue(event)
+
             print(f"Consumed {item} \n")
             # queue.task_done()
 
-        print("running the step...\n")
-        active_state_after_execution = interpreter.configuration
+        # print("running the step...\n")
+        # active_state_after_execution = interpreter.configuration
+        # print("active states before execution: \n")
+        # print(active_state_after_execution)
+        print(elevator.events_for(interpreter.configuration))
         step = interpreter.execute_once()
+        # print("active states after execution: \n")
+        # print(active_state_after_execution)
+        # print(elevator.events_for(interpreter.configuration))
+        
 
 
     # s1 = BasicState('Emergency')
@@ -521,7 +555,7 @@ async def run_statechart(queue):
     # step = interpreter.execute_once()
     print("... creating PlantUML\n")
     plantuml_data = export_to_plantuml(elevator)
-    with open('statechart_xx.plantuml', 'w') as file:
+    with open('chapter_7/statechart_xx.plantuml', 'w') as file:
         file.write(plantuml_data)
 
 
