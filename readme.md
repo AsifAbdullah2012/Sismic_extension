@@ -51,6 +51,9 @@ A state can be Basic, Compound and Final.
 - run the sismic_test.py file 
 - Follow the CLI
 
+## Video Example 
+- Please follow [Link DASC](https://drive.google.com/file/d/1tJG3XyRR_V_hK5Gw6hEp21XCEbBW4GV1/view?usp=sharing) for testing and debugging with a simple state chart example.
+
 
 
 
