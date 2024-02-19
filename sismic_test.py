@@ -315,6 +315,19 @@ import asyncio
 
 
 #MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+# append in a file 
+def append_to_file(filename, info):
+    """Appends information to a file.
+
+    Args:
+        filename (str): The path to the file.
+        info (str): The information to append.
+    """
+    with open(filename, 'a') as file:
+        file.write(info) 
+
+
+
 # producer 
 async def fetch_change(queue):
     
@@ -443,7 +456,15 @@ async def run_statechart(queue):
     # ---------------------------------------------------->
     # interpreter.queue('floorSelected', floor=16)
     # interpreter.queue('click', 'validate') # ----> replacement 
+    global change_number
+    global trac_change
+    trac_change = {}
+    change_number  = 1
+    global loglis
+    loglis = ""
     
+    # trac_change[change_number] = 1
+
     while True:
         run_again = input("Run next step ? if no type Exit: \n")
         if run_again == "Exit":
@@ -510,6 +531,29 @@ async def run_statechart(queue):
                     interpreter.queue(event)
 
             print(f"Consumed {item} \n")
+            # Construct the log information
+            loginfo = (
+                f"Change Number: {change_number}\n"
+                f"{item}\n"  # Assuming you want the string representation of 'item'
+                "internal values: \n"
+                f"Current States: {interpreter.configuration}\n"
+                f"External Events: {interpreter._external_queue}\n"
+                f"Possible transition from the current states: {elevator.events_for(interpreter.configuration)}\n"
+                f"Total States: {elevator.states}\n"
+                f"Total Transitions: {elevator.transitions}\n"
+                f"Parent Child relation: {elevator._parent}\n")
+            
+
+            text_file_name = "chapter_7/testing.txt"
+            if change_number not in trac_change:
+                loglis = loglis + loginfo
+                trac_change[change_number] = 1
+                change_number = change_number + 1
+            plant_uml_file_name = "chapter_7/statechart_" + str(change_number) + ".plantuml" 
+            plantuml_data = export_to_plantuml(elevator)
+            with open(plant_uml_file_name, 'w') as file:
+                file.write(plantuml_data)
+            
             # queue.task_done()
 
         # print("running the step...\n")
@@ -553,9 +597,11 @@ async def run_statechart(queue):
     #     active_state_before_execution = interpreter.configuration
 
     # step = interpreter.execute_once()
+        
+    append_to_file(text_file_name, loglis)
     print("... creating PlantUML\n")
     plantuml_data = export_to_plantuml(elevator)
-    with open('chapter_7/statechart_xx.plantuml', 'w') as file:
+    with open('chapter_7/statechart_xxy.plantuml', 'w') as file:
         file.write(plantuml_data)
 
 

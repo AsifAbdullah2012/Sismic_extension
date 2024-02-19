@@ -1,0 +1,36 @@
+Change Number: 1
+{'change_type': '1', 'state_type': 'B', 'state_name': 's4', 'on_entry': None, 'on_exit': None, 'parent': 'root', 'initial': None}
+internal values: 
+Current States: ['root', 's1']
+External Events: []
+Possible transition from the current states: ['goto s2']
+Total States: ['final', 'root', 's1', 's2', 's3', 's4']
+Total Transitions: [Transition('s3', 's1', event='goto s1'), Transition('s3', 's2', event='goto s2'), Transition('s3', 'final', event='goto final'), Transition('s2', 's3', event='goto s3'), Transition('s1', 's2', event='goto s2')]
+Parent Child relation: {'root': None, 'final': 'root', 's3': 'root', 's2': 'root', 's1': 'root', 's4': 'root'}
+Change Number: 1
+{'change_type': '1', 'state_type': 'B', 'state_name': 's4', 'on_entry': None, 'on_exit': None, 'parent': 'root', 'initial': None}
+internal values: 
+Current States: ['root', 's1']
+External Events: []
+Possible transition from the current states: ['goto s2']
+Total States: ['final', 'root', 's1', 's2', 's3', 's4']
+Total Transitions: [Transition('s3', 's1', event='goto s1'), Transition('s3', 's2', event='goto s2'), Transition('s3', 'final', event='goto final'), Transition('s2', 's3', event='goto s3'), Transition('s1', 's2', event='goto s2')]
+Parent Child relation: {'root': None, 'final': 'root', 's3': 'root', 's2': 'root', 's1': 'root', 's4': 'root'}
+Change Number: 2
+{'change_type': '3', 'source': 's3', 'target': 's4', 'event': 'goto s4', 'guard': None, 'action': None, 'priority': None}
+internal values: 
+Current States: ['root', 's1']
+External Events: []
+Possible transition from the current states: ['goto s2']
+Total States: ['final', 'root', 's1', 's2', 's3', 's4']
+Total Transitions: [Transition('s3', 's1', event='goto s1'), Transition('s3', 's2', event='goto s2'), Transition('s3', 'final', event='goto final'), Transition('s2', 's3', event='goto s3'), Transition('s1', 's2', event='goto s2'), Transition('s3', 's4', event='goto s4')]
+Parent Child relation: {'root': None, 'final': 'root', 's3': 'root', 's2': 'root', 's1': 'root', 's4': 'root'}
+Change Number: 3
+{'change_type': '5', 'event_list': ['goto final']}
+internal values: 
+Current States: ['root', 's1']
+External Events: [(0, Event('goto final'))]
+Possible transition from the current states: ['goto s2']
+Total States: ['final', 'root', 's1', 's2', 's3', 's4']
+Total Transitions: [Transition('s3', 's1', event='goto s1'), Transition('s3', 's2', event='goto s2'), Transition('s3', 'final', event='goto final'), Transition('s2', 's3', event='goto s3'), Transition('s1', 's2', event='goto s2'), Transition('s3', 's4', event='goto s4')]
+Parent Child relation: {'root': None, 'final': 'root', 's3': 'root', 's2': 'root', 's1': 'root', 's4': 'root'}
