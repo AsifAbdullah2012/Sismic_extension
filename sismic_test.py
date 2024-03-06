@@ -1,7 +1,7 @@
 from sismic.io import import_from_yaml, export_to_plantuml
 from sismic.model import Statechart, Transition
 from sismic.interpreter import Interpreter
-from sismic.model import Statechart, Transition, CompoundState, BasicState, FinalState
+from sismic.model import Statechart, Transition, CompoundState, BasicState, FinalState, OrthogonalState
 from extend import extend
 import asyncio
 
@@ -343,7 +343,7 @@ async def fetch_change(queue):
             print("insert 1 for state addition \n insert 2 for state removal \n insert 3 for transition addition \n insert 4 for transition removal \n insert 5 for Add events\n")
             in_type = input("change type: \n")
             if in_type == "1":
-                print("input state type 'B' -- Basic, 'C' -- Compound, 'F' -- Final\n")
+                print("input state type 'B' -- Basic, 'C' -- Compound, 'F' -- Final, 'O' -- \n")
                 state_type = input("state_type: \n")
                 state_name = input("state_name: \n")
                 on_entry = input("on_entry: \n")
@@ -444,6 +444,7 @@ async def run_statechart(queue):
     #elevator = import_from_yaml(filepath='sismic/docs/examples/elevator/elevator.yaml')
     # ---------------------------------------------------->
     elevator = import_from_yaml(filepath='sismic/tests/yaml/simple.yaml')
+    # elevator = import_from_yaml(filepath='sismic/tests/yaml/final.yaml')
     print(elevator._parent)
 
 
@@ -504,6 +505,9 @@ async def run_statechart(queue):
                 if s_type == "F":
                     s1 = FinalState(s_name, s_on_entry, s_on_exit)
                     st_change.add(s1, s_parent) 
+                if s_type == 'O':
+                    s1 = OrthogonalState(s_name, s_on_entry, s_on_exit)
+                    st_change.add(s1, s_parent)
 
             if c_type == "2":
                 s_name = item["state_name"]
@@ -543,13 +547,13 @@ async def run_statechart(queue):
                 f"Total Transitions: {elevator.transitions}\n"
                 f"Parent Child relation: {elevator._parent}\n")
             
-
-            text_file_name = "chapter_7/testing.txt"
+            global text_file_name
+            text_file_name = "chapter_7/20_02_2024/testing.txt"
             if change_number not in trac_change:
                 loglis = loglis + loginfo
                 trac_change[change_number] = 1
                 change_number = change_number + 1
-            plant_uml_file_name = "chapter_7/statechart_" + str(change_number) + ".plantuml" 
+            plant_uml_file_name = "chapter_7/20_02_2024/statechart_" + str(change_number) + ".plantuml" 
             plantuml_data = export_to_plantuml(elevator)
             with open(plant_uml_file_name, 'w') as file:
                 file.write(plantuml_data)

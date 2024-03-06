@@ -9,17 +9,11 @@ state "root" as root {
   }
   state "s2" as s2 {
     s2 --> s3 : goto s3
-    s2 --> parallel : goto to parallel
   }
   state "s1" as s1 {
     s1 --> s2 : goto s2
   }
   state "parallel" as parallel {
-    state "p1" as p1 {
-    }
-    --
-    state "p2" as p2 {
-    }
   }
 }
 @enduml
