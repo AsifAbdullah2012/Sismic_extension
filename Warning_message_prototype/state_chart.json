@@ -1,0 +1,9 @@
+{
+    "states": [
+        {"id": "1", "type":"simple", "name": "S1", "transitions": [{"event": "gos2", "source": "S1","target": "S2"}]},
+        {"id": "5", "type":"simple", "name": "S2", "transitions": [{"event": "gos3", "source": "S2","target": "S3"}]},
+        {"id": "2", "type":"simple", "name": "S3", "transitions": [{"event": "gos4", "source": "S3","target": "S4"}]},
+        {"id": "3", "type":"simple", "name": "S4", "transitions": [{"event": "gofinal", "source":"S4", "target": "Final"}]},
+        {"id": "4", "type":"simple", "name": "Final", "transitions": [{"event": "", "source": "S4","target": ""}]}
+    ]
+}

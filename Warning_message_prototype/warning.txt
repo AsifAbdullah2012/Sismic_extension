@@ -1,0 +1,3 @@
+"Warning can happen for the following reasons ... 
+ 1. you are trying to delete final / start State 
+ 2. Because of your change the EndState can not be reachable from the current State"
